@@ -87,8 +87,9 @@ ${sri.renderSectionInclude(.node)}
     <#assign contBoxDivId><@nodeId .node/></#assign>
     <#assign boxHeader = .node["box-header"][0]!>
     <#assign boxType = ec.resource.expandNoL10n(.node["@type"], "")!>
+    <#assign height = ec.resource.expandNoL10n(.node["@height"], "")!>
     <#if !boxType?has_content><#assign boxType = "default"></#if>
-    <m-container-box<#if contBoxDivId?has_content> id="${contBoxDivId}"</#if> type="${boxType}"<#if boxHeader??> title="${ec.getResource().expand(boxHeader["@title"]!"", "")?html}"</#if> :initial-open="<#if ec.getResource().expandNoL10n(.node["@initial"]!, "") == "closed">false<#else>true</#if>">
+    <m-container-box<#if contBoxDivId?has_content> id="${contBoxDivId}"</#if> height="${height}" type="${boxType}"<#if boxHeader??> title="${ec.getResource().expand(boxHeader["@title"]!"", "")?html}"</#if> :initial-open="<#if ec.getResource().expandNoL10n(.node["@initial"]!, "") == "closed">false<#else>true</#if>">
         <#-- NOTE: direct use of the m-container-box component would not use template elements but rather use the 'slot' attribute directly on the child elements which we can't do here -->
         <#if boxHeader??><template slot="header"><#recurse boxHeader></template></#if>
         <#if .node["box-toolbar"]?has_content><template slot="toolbar"><#recurse .node["box-toolbar"][0]></template></#if>
@@ -145,11 +146,16 @@ ${sri.renderSectionInclude(.node)}
     <#if .node["@condition"]?has_content><#assign conditionResult = ec.getResource().condition(.node["@condition"], "")><#else><#assign conditionResult = true></#if>
     <#if conditionResult>
         <#assign buttonText = ec.getResource().expand(.node["@button-text"], "")>
+        <#assign buttonIcon = ec.getResource().expand(.node["@button-icon"], "")>
+        <#assign buttonLabelDisplay = ec.getResource().expand(.node["@button-label-display"], "")>
+        <#assign flat = ec.getResource().expand(.node["@flat"], "")>
         <#assign title = ec.getResource().expand(.node["@title"], "")>
         <#if !title?has_content><#assign title = buttonText></#if>
+        <#if !flat?has_content><#assign flat = 'false'></#if>
+        <#if !buttonLabelDisplay?has_content><#assign buttonLabelDisplay = 'Y'></#if>
         <#assign cdDivId><@nodeId .node/></#assign>
-        <m-container-dialog id="${cdDivId}" color="<@getQuasarColor ec.getResource().expandNoL10n(.node["@type"]!"primary", "")/>" width="${.node["@width"]!""}"
-                button-text="${buttonText}" button-class="${ec.getResource().expandNoL10n(.node["@button-style"]!"", "")}" title="${title}"<#if _openDialog! == cdDivId> :openDialog="true"</#if>>
+        <m-container-dialog id="${cdDivId}" icon="${buttonIcon}" :flat="${flat}" color="<@getQuasarColor ec.getResource().expandNoL10n(.node["@type"]!"primary", "")/>" width="${.node["@width"]!""}"
+                <#if buttonLabelDisplay == 'Y'> button-text="${buttonText}" </#if> button-class="${ec.getResource().expandNoL10n(.node["@button-style"]!"", "")}" title="${title}"<#if _openDialog! == cdDivId> :openDialog="true"</#if>>
             <#recurse>
         </m-container-dialog>
     </#if>

@@ -343,11 +343,11 @@ Vue.component('m-stylesheet', {
 /* ========== layout components ========== */
 Vue.component('m-container-box', {
     name: "mContainerBox",
-    props: { type:{type:String,'default':'default'}, title:String, initialOpen:{type:Boolean,'default':true} },
+    props: { type:{type:String,'default':'default'}, height:{type:String,'default':'auto'}, title:String, initialOpen:{type:Boolean,'default':true} },
     data: function() { return { isBodyOpen:this.initialOpen }},
     // TODO: handle type better, have text color (use text- additional styles instead of Bootstrap to Quasar mapping), can collor the border too?
     template:
-    '<q-card flat bordered class="q-ma-sm m-container-box">' +
+    '<q-card :style="\'height:\' + height + \';overflow-y:auto;\'" flat bordered class="q-ma-sm m-container-box">' +
         '<q-card-actions @click.self="toggleBody">' +
             '<h5 v-if="title && title.length" @click="toggleBody" :class="\'text-\' + type">{{title}}</h5>' +
             '<slot name="header"></slot>' +
@@ -428,11 +428,11 @@ Vue.component('m-dialog', {
 Vue.component('m-container-dialog', {
     name: "mContainerDialog",
     props: { id:String, color:String, buttonText:String, buttonClass:String, title:String, width:{type:String},
-        openDialog:{type:Boolean,'default':false}, buttonIcon:{type:String,'default':'open_in_new'} },
+        openDialog:{type:Boolean,'default':false},icon:String, buttonIcon:{type:String,'default':'open_in_new'},flat: {type:Boolean,'default':false},filled:{type:Boolean,'default':true} },
     data: function() { return { isShown:false }},
     template:
     '<span>' +
-        '<span @click="show()"><slot name="button"><q-btn dense outline no-caps :icon="buttonIcon" :label="buttonText" :color="color" :class="buttonClass"></q-btn></slot></span>' +
+        '<span @click="show()"><slot name="button"><q-btn dense :flat="flat" outline no-caps :icon="icon || buttonIcon" :label="buttonText" :color="color" :class="buttonClass"></q-btn></slot></span>' +
         '<m-dialog v-model="isShown" :id="id" :title="title" :color="color" :width="width"><slot></slot></m-dialog>' +
     '</span>',
     methods: { show: function() { this.isShown = true; }, hide: function() { this.isShown = false; } },
