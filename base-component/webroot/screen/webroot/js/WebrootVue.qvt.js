@@ -343,11 +343,11 @@ Vue.component('m-stylesheet', {
 /* ========== layout components ========== */
 Vue.component('m-container-box', {
     name: "mContainerBox",
-    props: { type:{type:String,'default':'default'}, height:{type:String,'default':'auto'}, title:String, initialOpen:{type:Boolean,'default':true} },
+    props: { type:{type:String,'default':'default'}, title:String, initialOpen:{type:Boolean,'default':true} },
     data: function() { return { isBodyOpen:this.initialOpen }},
     // TODO: handle type better, have text color (use text- additional styles instead of Bootstrap to Quasar mapping), can collor the border too?
     template:
-    '<q-card :style="\'height:\' + height + \';overflow-y:auto;\'" flat bordered class="q-ma-sm m-container-box">' +
+    '<q-card flat bordered class="q-ma-sm m-container-box">' +
         '<q-card-actions @click.self="toggleBody">' +
             '<h5 v-if="title && title.length" @click="toggleBody" :class="\'text-\' + type">{{title}}</h5>' +
             '<slot name="header"></slot>' +
