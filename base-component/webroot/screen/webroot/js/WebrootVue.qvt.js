@@ -361,7 +361,7 @@ Vue.component('m-container-box', {
 Vue.component('m-box-body', {
     name: "mBoxBody",
     props: { height:String },
-    data: function() { return this.height ? { dialogStyle:{'max-height':this.height+'px', 'overflow-y':'auto'}} : {dialogStyle:{}}},
+    data: function() { return this.height ? { dialogStyle:{'max-height':this.height, 'overflow-y':'auto'}} : {dialogStyle:{}}},
     template: '<div class="q-pa-xs" :style="dialogStyle"><slot></slot></div>'
 });
 Vue.component('m-dialog', {
