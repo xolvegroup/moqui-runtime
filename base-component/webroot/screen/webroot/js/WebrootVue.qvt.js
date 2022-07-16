@@ -1879,6 +1879,51 @@ Vue.component('m-ck-editor', {
         readOnly: function(val) { if (this.ckeditor) this.ckeditor.setReadOnly( val ); }
     }
 });
+Vue.component('m-ck-editor-latest', {
+    name: 'mCkEditorLatest',
+    template:'<div><textarea ref="area_new"></textarea></div>',
+    props: { value:{type:String,'default':''}, useInline:Boolean, readOnly:{type:Boolean,'default':null} },
+    data: function() { return { destroyed:false, ckeditor:null } },
+    mounted: function() {
+        var vm = this;
+            if (vm.destroyed) return;
+            var config = vm.config || {};
+            if (vm.readOnly !== null) config.readOnly = vm.readOnly;
+            ClassicEditor
+            .create( vm.$refs.area_new, {
+                mention: {
+                    feeds: [
+                        {
+                            marker: '@',
+                            feed: getFeedItems,
+                            itemRenderer: customItemRenderer
+                        },
+                    ]
+                }
+
+            } )
+            .then( editor => {
+                MentionCustomization(editor);
+                window.editor = editor;
+                editor.setData(vm.value);
+                editor.model.document.on('change:data', function(evt) {
+                    var curData = editor.getData();
+                    if (vm.value !== curData) vm.$emit('input', curData, evt, editor);
+                });
+
+            } )
+            .catch( error => {
+                console.error( 'Oops, something went wrong!' );
+                console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
+                console.warn( 'Build id: usftwryz6w3h-nohdljl880ze' );
+                console.error( error );
+            } );
+    },
+    beforeDestroy: function() {
+        if (this.ckeditor) { this.ckeditor.destroy(); }
+        this.destroyed = true;
+    },
+});
 /* Lazy loading Simple MDE wrapper component */
 Vue.component('m-simple-mde', {
     name: 'mSimpleMde',

@@ -1991,6 +1991,12 @@ a => A, d => D, y => Y
                     allowedContent:true, linkJavaScriptLinksAllowed:true, fillEmptyBlocks:false,
                     extraAllowedContent:'p(*)[*]{*};div(*)[*]{*};li(*)[*]{*};ul(*)[*]{*};i(*)[*]{*};span(*)[*]{*}',
                     width:'100%', height:'600px', removeButtons:'Image,Save,NewPage,Preview',autoParagraph:false}"></m-ck-editor>
+    <#elseif editorType == "ckhtml">
+        <#-- support CSS from editorScreenThemeId with resourceTypeEnumId=STRT_STYLESHEET, like: contentsCss:['/css/mysitestyles.css','/css/anotherfile.css']; -->
+        <#-- see: https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html#cfg-contentsCss -->
+        <#assign editorScreenThemeId = ec.getResource().expand(.node["@editor-theme"]!"", "")>
+        <#assign editorThemeCssList = sri.getThemeValues("STRT_STYLESHEET", editorScreenThemeId)>
+        <m-ck-editor-latest<#if fieldsJsName?has_content> v-model="${fieldsJsName}.${name}"</#if>></m-ck-editor-latest>
     <#elseif editorType == "md">
         <m-simple-mde<#if fieldsJsName?has_content> v-model="${fieldsJsName}.${name}"</#if>
                 :config="{ indentWithTabs:false, autoDownloadFontAwesome:false, autofocus:true, spellChecker:false }"></m-simple-mde>
