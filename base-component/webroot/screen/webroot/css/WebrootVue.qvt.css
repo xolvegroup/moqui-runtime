@@ -212,3 +212,13 @@ ul.float-plain.condensed li { margin: 0 4px 0 0; padding: 4px; }
 }
 
 .ScreenTreeNested { margin: 4px 0 4px 12px; padding: 0 0 0 12px; border-left: 1px dashed lightgrey; }
+
+/* ==== CKEditor5 CSS ==== */
+.ck-editor {
+    width: 100% !important;
+    margin-bottom: 9px !important;
+}
+.ck-editor__editable {
+    min-height: 180px !important;
+    color: black !important;
+}
