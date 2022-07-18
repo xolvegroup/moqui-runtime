@@ -38,6 +38,8 @@ along with this software (see the LICENSE.md file). If not, see
             //CKEditor5 scripts
             footer_scripts.add('/js/ckeditor.js')
             footer_scripts.add('/js/ckeditor_custom_script.js')
+            //JEditable script
+            footer_scripts.add('/js/jeditable.min.js')
         } else {
             /* ========== Dev Mode ========== */
             html_scripts.add('/js/MoquiLib.js')
@@ -52,6 +54,8 @@ along with this software (see the LICENSE.md file). If not, see
             //CKEditor5 scripts
             footer_scripts.add('/js/ckeditor.js')
             footer_scripts.add('/js/ckeditor_custom_script.js')
+            //JEditable script
+            footer_scripts.add('/js/jeditable.min.js')
         }
 
         // conditional QZ Tray scripts, only include if enabled

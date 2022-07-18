@@ -558,13 +558,13 @@ Vue.component('m-editable', {
         cancel:{type:String,'default':'Cancel'}, submit:{type:String,'default':'Save'} },
     mounted: function() {
         var reqData = $.extend({ moquiSessionToken:this.$root.moquiSessionToken, parameterName:this.parameterName }, this.urlParameters);
-        var edConfig = { indicator:this.indicator, tooltip:this.tooltip, cancel:this.cancel, submit:this.submit,
+        var edConfig = { indicator:this.indicator, tooltip:this.tooltip, onblur:'submit',
                 name:this.parameterName, type:this.widgetType, cssclass:'editable-form', submitdata:reqData };
         if (this.loadUrl && this.loadUrl.length > 0) {
             var vm = this; edConfig.loadurl = this.loadUrl; edConfig.loadtype = "POST";
             edConfig.loaddata = function(value) { return $.extend({ currentValue:value, moquiSessionToken:vm.$root.moquiSessionToken }, vm.loadParameters); };
         }
-        // TODO, replace with something in quasar: $(this.$el).editable(this.url, edConfig);
+        $(this.$el).editable(this.url, edConfig);
     },
     render: function(createEl) { return createEl(this.labelType, { attrs:{ id:this.id, 'class':'editable-label' }, domProps: { innerHTML:this.labelValue } }); }
 });
