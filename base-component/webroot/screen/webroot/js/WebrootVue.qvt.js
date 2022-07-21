@@ -1905,12 +1905,16 @@ Vue.component('m-ck-editor-latest', {
             .then( editor => {
                 MentionCustomization(editor);
                 window.editor = editor;
-                editor.setData(vm.value);
                 editor.model.document.on('change:data', function(evt) {
                     var curData = editor.getData();
                     if (vm.value !== curData) vm.$emit('input', curData, evt, editor);
                 });
-
+                if (!(vm.value||"").includes("<p>")){
+                    editor.setData(vm.value.replace(/(.+?)(\n|$)+/g, "<p>$1</p>"))
+                }
+                else {
+                    editor.setData(vm.value)
+                }
             } )
             .catch( error => {
                 console.error( 'Oops, something went wrong!' );
